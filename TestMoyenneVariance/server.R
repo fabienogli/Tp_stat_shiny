@@ -1,5 +1,55 @@
-#library(shiny)
-
+library(shiny)
+ f.dist.area = function(statistique,tail,df)
+{
+#plage de valeur de l'axe x
+  x = seq(0,5,length.out=200)
+  df = round(df, digits=3)
+  
+  if(tail=="right")
+  {
+    xmin=statistique
+    xmax=5
+    
+    area = seq(xmin,xmax,length.out=200)
+    dat = data.frame(x=area,ymin=0,ymax=dt(area,df=df))
+    #tracé du graphe
+    graph = ggplot() + geom_line(data.frame(x=x, y=dt(x,df=df)), mapping=aes(x=x, y=y)) + 
+      geom_ribbon(data=dat, mapping=aes(x=x, ymin=ymin, ymax=ymax), fill="navy") + 
+      ggtitle(paste("Distribution-f avec", df, "dégré de liberté")) +
+      xlab("Valeurs de t") + ylab("Frequences relatives") + theme_bw()
+  } else if(tail=="left")
+  {
+    xmin=0
+    xmax=statistique
+    
+    area = seq(xmin,xmax,length.out=200)
+    dat = data.frame(x=area,ymin=0,ymax=dt(area,df=df))
+    #tracé du graphe
+    graph = ggplot() + geom_line(data.frame(x=x, y=dt(x,df=df)), mapping=aes(x=x, y=y)) + 
+      geom_ribbon(data=dat, mapping=aes(x=x, ymin=ymin, ymax=ymax), fill="navy") +
+      ggtitle(paste("Distribution-f avec", df, "dégré de liberté")) +
+      xlab("Valeurs de t") + ylab("Frequences relatives") + theme_bw()
+  } else if(tail=="both")
+  {
+    xmin1=abs(statistique)
+    xmax1=5
+    area1 = seq(xmin1,xmax1,length.out=200)
+    dat1 = data.frame(x=area1,ymin1=0,ymax1=dt(area1,df=df))
+    
+    xmin2=0
+	#
+    xmax2=abs(statistique)
+    area2 = seq(xmin2,xmax2,length.out=200)
+    dat2 = data.frame(x=area2,ymin2=0,ymax2=dt(area2,df=df))
+    #tracé du graphe
+    graph = ggplot() + geom_line(data.frame(x=x, y=dt(x,df=df)), mapping=aes(x=x, y=y)) + 
+      geom_ribbon(data=dat1, mapping=aes(x=x, ymin=ymin1, ymax=ymax1),fill="navy") +
+      geom_ribbon(data=dat2, mapping=aes(x=x, ymin=ymin2, ymax=ymax2),fill="navy") +
+      ggtitle(paste("Distribution-f avec", df, "dégré de liberté")) +
+      xlab("Valeurs de t") + ylab("Frequences relatives") + theme_bw()
+  }
+  return(graph)
+}
 #distribution t
 #permet de tracer l'affichage graphique de la distribution t
 # Le résultat de la fonction t.test() est une liste contenant, entre autres, les éléments suivants :
@@ -91,10 +141,6 @@ shinyServer(function(input, output) {
    data()
   })
   
-  # output$data.tab1 = renderDataTable({
-    # if(input$usedata) data()
-  # })
-  
   output$boxPlot = renderPlot({
 	if((input$datformat==2 ))
     {
@@ -183,22 +229,76 @@ shinyServer(function(input, output) {
   })
     
   ## T-test 
-    
+  #Affichage des hypthèses  
   output$hypo = renderUI({
     if((input$datformat==2 || input$datformat==3 ))
     {
       if(input$alt2=="inferieur") 
         HTML("Ho: &mu;<sub>1</sub>-&mu;<sub>2</sub> =",input$difmoy,
-             "<p> Ha: &mu;<sub>1</sub>-&mu;<sub>2</sub> <",input$difmoy)
+             "<p> H1: &mu;<sub>1</sub>-&mu;<sub>2</sub> <",input$difmoy)
       else if(input$alt2=="superieur")
         HTML("Ho: &mu;<sub>1</sub>-&mu;<sub>2</sub> =",input$difmoy,
-             "<p> Ha: &mu;<sub>1</sub>-&mu;<sub>2</sub> >",input$difmoy)
+             "<p> H1: &mu;<sub>1</sub>-&mu;<sub>2</sub> >",input$difmoy)
       else 
         HTML("Ho: &mu;<sub>1</sub>-&mu;<sub>2</sub> =",input$difmoy,
-             "<p> Ha: &mu;<sub>1</sub>-&mu;<sub>2</sub> &ne;",input$difmoy)
+             "<p> H1: &mu;<sub>1</sub>-&mu;<sub>2</sub> &ne;",input$difmoy)
     } 
   })
   
+  #permet d'afficher dans la page la representation graphique de la distribution de t
+  output$tdistrib = renderPlot({
+    input$teststart
+    isolate({
+    if( input$alt2=="inferieur")
+    {
+      tail="left"
+    } else if(input$alt2=="superieur")
+    {
+      tail="right"
+    } else if(input$alt2=="bilateral")
+    {
+      tail="both"
+    } 
+    #on passe en parametre a la fonction t.dist.area la valeur de la statistique t,le type de test(inferieur,superieur ou bilateral) ,et le degré de liberté
+    return(t.dist.area(resultat()$statistic,tail=tail,resultat()$parameter))
+    })
+  })
+
+  #permet d'afficher le tableau de l'intervalle de confiance
+  output$ictab = renderTable({
+  #si la variable ci est définie et le test a démarré
+    if(input$ci & input$teststart>0)
+    {
+      tab = matrix(c(resultat()$conf.int[1],resultat()$conf.int[2]),nrow=1)
+      colnames(tab) = c("Limite à gauche","Limite à droite")
+      rownames(tab) = paste(round(1-input$alpha, digits=3)*100,"% IC",sep="")
+      tab
+    }
+  })
+   #fonction permettant d'afficher les estimations des moyennes
+  output$estim=renderUI({
+     
+	if(input$teststart>0 & input$showpoint & ((input$datformat==2 | input$datformat==3 )))
+    {
+      HTML("x&#773<sub>1</sub> =",round(resultat()$estimate[1],2),"<p> x&#773<sub>2</sub> =",round(resultat()$estimate[2],2),
+           "<p> x&#773<sub>1</sub> - x&#773<sub>2</sub> =",round(resultat()$estimate[1]-resultat()$estimate[2],2))
+    }
+  })
+ 
+  output$test = renderTable({
+    input$teststart
+    isolate({
+	 #si le test a démarré
+    if(input$teststart>0)
+    {
+      tab = matrix(c(resultat()$parameter,resultat()$statistic,resultat()$p.value),nrow=1)
+      colnames(tab) = c("Dégré de liberté","T-statistic","P-value")
+      rownames(tab) = "Values"
+      tab
+    } 
+    })
+  })
+  #Permet de récupérer le résultat du t-test
   resultat = reactive({
     input$teststart
     isolate({
@@ -246,60 +346,89 @@ shinyServer(function(input, output) {
     }
     })
   })
- #fonction permettant d'afficher les estimations des moyennes
-  output$estim=renderUI({
-     
-	if(input$teststart>0 & input$showpoint & ((input$datformat==2 | input$datformat==3 )))
-    {
-      HTML("x&#773<sub>1</sub> =",round(resultat()$estimate[1],2),"<p> x&#773<sub>2</sub> =",round(resultat()$estimate[2],2),
-           "<p> x&#773<sub>1</sub> - x&#773<sub>2</sub> =",round(resultat()$estimate[1]-resultat()$estimate[2],2))
-    }
-  })
- 
-  output$test = renderTable({
-    input$teststart
+ # Permet de récupérer le résultat du f-test
+  resultat1 = reactive({
+    input$test1start
     isolate({
-	 #si le test a démarré
-    if(input$teststart>0)
+    if(input$test1start>0)
     {
-      tab = matrix(c(resultat()$parameter,resultat()$statistic,resultat()$p.value),nrow=1)
-      colnames(tab) = c("Dégré de liberté","T-statistic","P-value")
-      rownames(tab) = "Values"
-      tab
-    } 
+	  if((input$datformat==2 ))
+      {
+        donnees=data()
+        if(length(unique(donnees[[1]])) > length(unique(donnees[[2]])))
+        
+          if(input$alt3=="inferieur")
+            resultat1 = var.test(as.numeric(as.character(donnees[[1]]))~donnees[[2]],ratio=input$difmoy1,
+                         alternative="less",conf.level=1-input$alpha1)
+          else if(input$alt3=="superieur")
+            resultat1 = var.test(as.numeric(as.character(donnees[[1]]))~donnees[[2]],ratio=input$difmoy1,
+                         alternative="greater",conf.level=1-input$alpha1)
+          else 
+            resultat1 = var.test(as.numeric(as.character(donnees[[1]]))~donnees[[2]],ratio=input$difmoy1,
+                         alternative="two.sided",conf.level=1-input$alpha1)
+        } else
+        {
+          if(input$alt3=="inferieur")
+            resultat1 = var.test(as.numeric(as.character(donnees[[2]]))~donnees[[1]],ratio=input$difmoy1,
+                         alternative="less",conf.level=1-input$alpha1)
+          else if(input$alt3=="superieur")
+            resultat1 = var.test(as.numeric(as.character(donnees[[2]]))~donnees[[1]],ratio=input$difmoy1, 
+                         alternative="greater",conf.level=1-input$alpha1)
+          else 
+            resultat1 = var.test(as.numeric(as.character(donnees[[2]]))~donnees[[1]],ratio=input$difmoy1,
+                         alternative="two.sided",conf.level=1-input$alpha1)
+        }
+      } else if((input$datformat==3 ))
+      {
+        donnees=data()
+        if(input$alt3=="inferieur")
+          resultat1 = var.test(x=as.numeric(as.character(donnees[[1]])),y=as.numeric(as.character(donnees[[2]])),ratio=input$difmoy1,
+                       alternative="less",conf.level=1-input$alpha1)
+        else if(input$alt3=="superieur")
+          resultat1 = var.test(x=as.numeric(as.character(donnees[[1]])),y=as.numeric(as.character(donnees[[2]])),ratio=input$difmoy1,
+                       alternative="greater",conf.level=1-input$alpha1)
+        else 
+          resultat1 = var.test(x=as.numeric(as.character(donnees[[1]])),y=as.numeric(as.character(donnees[[2]])),ratio=input$difmoy1,
+                       alternative="two.sided",conf.level=1-input$alpha1)
+      }
+    }
     })
+  )
+  #Affichage des hypthèses sur les variances
+    output$hypo1 = renderUI({
+    if((input$datformat==2 || input$datformat==3 ))
+    {
+      if(input$alt3=="inferieur") 
+        HTML("Ho: &sigma;<sub>1</sub><sup>2</sup>/&sigma;<sub>2</sub><sup>2</sup> =",input$difmoy1,
+             "<p> H1: &sigma;<sub>1</sub><sup>2</sup><&sigma;<sub>2</sub><sup>2</sup>")
+      else if(input$alt3=="superieur")
+        HTML("Ho: &sigma;<sub>1</sub><sup>2</sup>/&sigma;<sub>2</sub><sup>2</sup> =",input$difmoy1,
+             "<p> H1: &sigma;<sub>1</sub><sup>2</sup>>&sigma;<sub>2</sub><sup>2</sup>")
+      else 
+        HTML("Ho: &sigma;<sub>1</sub><sup>2</sup>/&sigma;<sub>2</sub><sup>2</sup> =",input$difmoy1,
+             "<p> H1: &sigma;<sub>1</sub><sup>2</sup>&ne;&sigma;<sub>2</sub><sup>2</sup> ")
+    } 
   })
   
-  #permet d'afficher dans la page la representation graphique de la distribution de t
-  output$tdistrib = renderPlot({
-    input$teststart
+ 
+
+#permet d'afficher dans la page la representation graphique de la distribution de t
+  output$fdistrib = renderPlot({
+    input$test1start
     isolate({
-    if( input$alt2=="inferieur")
+    if( input$alt3=="inferieur")
     {
       tail="left"
-    } else if(input$alt2=="superieur")
+    } else if(input$alt3=="superieur")
     {
       tail="right"
-    } else if(input$alt2=="bilateral")
+    } else if(input$alt3=="bilateral")
     {
       tail="both"
     } 
     #on passe en parametre a la fonction t.dist.area la valeur de la statistique t,le type de test(inferieur,superieur ou bilateral) ,et le degré de liberté
-    return(t.dist.area(resultat()$statistic,tail=tail,resultat()$parameter))
+    return(f.dist.area(resultat1()$statistic,tail=tail,resultat1()$parameter))
     })
-  })
-
-  #permet d'afficher le tableau de l'intervalle de confiance
-  output$ictab = renderTable({
-  #si la variable ci est définie et le test a démarré
-    if(input$ci & input$teststart>0)
-    {
-      tab = matrix(c(resultat()$conf.int[1],resultat()$conf.int[2]),nrow=1)
-      colnames(tab) = c("Limite à gauche","Limite à droite")
-      rownames(tab) = paste(round(1-input$alpha, digits=3)*100,"% IC",sep="")
-      tab
-    }
-  })
-  
+  }) 
   
 })

@@ -1,4 +1,4 @@
-#library(shiny)
+library(shiny)
 if (!require("ggplot2"))
   install.packages("ggplot2")
 
@@ -7,10 +7,9 @@ if (!require("shinyBS"))
 
 shinyUI(
 fluidPage(
-  # tags$head(tags$link(rel = "icon", type = "image/x-icon", 
-                      # href = "https://webresource.its.calpoly.edu/cpwebtemplate/5.0.1/common/images_html/favicon.ico")),
+
   
-  navbarPage(title="Test de 2 moyennes",
+  navbarPage(title="Test de 2 moyennes ou 2 variances",
              
              tabPanel("A propos",                     
                       column(1),
@@ -81,7 +80,7 @@ fluidPage(
                                  condition="input.teststart>0",
                                  column(7,
                                         plotOutput("tdistrib"),
-                                        bsPopover("tdistrib","p-value","La p-value est la région en bleu. Si la p-value est élevée, on garde H0 et on rejette Ha.  Sinon on rejette H0 et on garde Ha.",
+                                        bsPopover("tdistrib","p-value","La p-value est la région en bleu. Si la p-value est élevée, on garde H0 et on rejette H1.  Sinon on rejette H0 et on garde H1.",
                                                   trigger="hover",placement="left"),br()),
                                  column(5,br(),
                                         strong("Sortie :"),
@@ -91,7 +90,54 @@ fluidPage(
                                         checkboxInput("ci","Intervalle de confiance:", TRUE),
                                         tableOutput("ictab"))))
                                       
-             )))))
+             ))
+			 ,
+			 tabPanel("Comparaison de 2 variances" ,
+fluidRow(
+                        column(3,
+                               wellPanel(
+                                 
+                                 conditionalPanel(
+                                   condition="input.datformat==2 || input.datformat==3 ",
+                                   h4("Hypothèses de comparaison :"),
+                                   uiOutput("hypo1"),
+                                   tags$hr(),
+                                   numericInput("difmoy1", label="Valeur dans l'hypothèse:", value=1),
+								   bsPopover("difmoy1","Note :", "Cette valeur indique la vrai valeur de la moyenne ou la différence des deux moyennes si on effectue un test sur 2 échantillons.).",
+                                                      trigger="hover",placement="right"),
+							p("Cette valeur indique le ratio entre les  deux variances si on effectue un test sur 2 échantillons."),
+                                   selectInput("alt3", label="Choisissez le type de test :", choices=list("bilateral","inferieur","superieur"),selected="bilateral")),
+                                 bsPopover("alt3","Important", "Choisissez  bilatéral,  inférieur ou supérieur",
+                                                      trigger="hover",placement="right"),
+								 sliderInput("alpha1", label=HTML("Pourcentage &alpha;:"), value=.05, max=1, min=0, step=.01),
+                                 tags$hr(),
+                                 actionButton("test1start", strong("Démarrer le f-test")),
+                                 bsPopover("test1start","Note","Assurez vous que vos données respecte bien la loi normale",trigger="hover",placement="right"),
+                                 br(),br(),br()
+                                 )),
+                        
+                        column(9,
+                               br(),br(),
+                               conditionalPanel(
+                                 condition="input.test1start>0",
+                                 column(7,
+                                        plotOutput("fdistrib"),
+                                        bsPopover("fdistrib","p-value","La p-value est la région en bleu. Si la p-value est élevée, on garde H0 et on rejette H1.  Sinon on rejette H0 et on garde H1.",
+                                                  trigger="hover",placement="left"),br()),
+                                 column(5,br(),
+                                        strong("Sortie :"),
+                                        tableOutput("test1"),br(),
+                                        checkboxInput("showpoint","Estimation des moyennes:",TRUE),
+                                        uiOutput("estim1"),
+                                        checkboxInput("ci1","Intervalle de confiance:", TRUE),
+                                        tableOutput("ictab1"))))
+                                      
+             )			 
+                      )
+			 
+			 
+			 
+			 )))
              # tabPanel("Verification de la normalité",
                       # column(1),
                       # column(4,br(),

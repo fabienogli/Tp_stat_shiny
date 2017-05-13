@@ -1,4 +1,4 @@
-library(shiny)
+#library(shiny)
 
 #distribution t
 #permet de tracer l'affichage graphique de la distribution t
@@ -81,16 +81,10 @@ shinyServer(function(input, output) {
 	else if(!is.null(input$file) )
     {
 	#lecture du fichier csv
-      file = read.csv(input$file$datapath, header=input$header, sep=input$sep, quote=input$quote)
+      file = read.csv(input$file$datapath, header = FALSE,sep=input$sep, quote=input$quote)
       return(file)
     } 
-	# else if(input$sampdat==2 & input$usedata)
-    # {
-      # mtcars$amcoded = rep(NA,length(mtcars$hp))
-      # mtcars$amcoded[which(mtcars$am==0)] = "automatic"
-      # mtcars$amcoded[which(mtcars$am==1)] = "manual"
-      # return(data.frame(transmission=mtcars$amcoded, horsepower=mtcars$hp))
-    # }
+	
     })
     
   output$data.tab = renderDataTable({
@@ -194,14 +188,14 @@ shinyServer(function(input, output) {
     if((input$datformat==2 || input$datformat==3 ))
     {
       if(input$alt2=="inferieur") 
-        HTML("Ho: &mu;<sub>1</sub>-&mu;<sub>2</sub> =",input$null2,
-             "<p> Ha: &mu;<sub>1</sub>-&mu;<sub>2</sub> <",input$null2)
+        HTML("Ho: &mu;<sub>1</sub>-&mu;<sub>2</sub> =",input$difmoy,
+             "<p> Ha: &mu;<sub>1</sub>-&mu;<sub>2</sub> <",input$difmoy)
       else if(input$alt2=="superieur")
-        HTML("Ho: &mu;<sub>1</sub>-&mu;<sub>2</sub> =",input$null2,
-             "<p> Ha: &mu;<sub>1</sub>-&mu;<sub>2</sub> >",input$null2)
+        HTML("Ho: &mu;<sub>1</sub>-&mu;<sub>2</sub> =",input$difmoy,
+             "<p> Ha: &mu;<sub>1</sub>-&mu;<sub>2</sub> >",input$difmoy)
       else 
-        HTML("Ho: &mu;<sub>1</sub>-&mu;<sub>2</sub> =",input$null2,
-             "<p> Ha: &mu;<sub>1</sub>-&mu;<sub>2</sub> &ne;",input$null2)
+        HTML("Ho: &mu;<sub>1</sub>-&mu;<sub>2</sub> =",input$difmoy,
+             "<p> Ha: &mu;<sub>1</sub>-&mu;<sub>2</sub> &ne;",input$difmoy)
     } 
   })
   
@@ -217,37 +211,37 @@ shinyServer(function(input, output) {
         {
           if(input$alt2=="inferieur")
             resultat = t.test(as.numeric(as.character(donnees[[1]]))~donnees[[2]],
-                         alternative="less",mu=input$null2,conf.level=1-input$alpha)
+                         alternative="less",mu=input$difmoy,conf.level=1-input$alpha)
           else if(input$alt2=="superieur")
             resultat = t.test(as.numeric(as.character(donnees[[1]]))~donnees[[2]],
-                         alternative="greater",mu=input$null2,conf.level=1-input$alpha)
+                         alternative="greater",mu=input$difmoy,conf.level=1-input$alpha)
           else 
             resultat = t.test(as.numeric(as.character(donnees[[1]]))~donnees[[2]],
-                         alternative="two.sided",mu=input$null2,conf.level=1-input$alpha)
+                         alternative="two.sided",mu=input$difmoy,conf.level=1-input$alpha)
         } else
         {
           if(input$alt2=="inferieur")
             resultat = t.test(as.numeric(as.character(donnees[[2]]))~donnees[[1]],
-                         alternative="less",mu=input$null2,conf.level=1-input$alpha)
+                         alternative="less",mu=input$difmoy,conf.level=1-input$alpha)
           else if(input$alt2=="superieur")
             resultat = t.test(as.numeric(as.character(donnees[[2]]))~donnees[[1]], 
-                         alternative="greater",mu=input$null2,conf.level=1-input$alpha)
+                         alternative="greater",mu=input$difmoy,conf.level=1-input$alpha)
           else 
             resultat = t.test(as.numeric(as.character(donnees[[2]]))~donnees[[1]],
-                         alternative="two.sided",mu=input$null2,conf.level=1-input$alpha)
+                         alternative="two.sided",mu=input$difmoy,conf.level=1-input$alpha)
         }
       } else if((input$datformat==3 ))
       {
         donnees=data()
         if(input$alt2=="inferieur")
           resultat = t.test(x=as.numeric(as.character(donnees[[1]])),y=as.numeric(as.character(donnees[[2]])),
-                       alternative="less",mu=input$null2,conf.level=1-input$alpha)
+                       alternative="less",mu=input$difmoy,conf.level=1-input$alpha)
         else if(input$alt2=="superieur")
           resultat = t.test(x=as.numeric(as.character(donnees[[1]])),y=as.numeric(as.character(donnees[[2]])),
-                       alternative="greater",mu=input$null2,conf.level=1-input$alpha)
+                       alternative="greater",mu=input$difmoy,conf.level=1-input$alpha)
         else 
           resultat = t.test(x=as.numeric(as.character(donnees[[1]])),y=as.numeric(as.character(donnees[[2]])),
-                       alternative="two.sided",mu=input$null2,conf.level=1-input$alpha)
+                       alternative="two.sided",mu=input$difmoy,conf.level=1-input$alpha)
       }
     }
     })
@@ -269,7 +263,7 @@ shinyServer(function(input, output) {
     if(input$teststart>0)
     {
       tab = matrix(c(resultat()$parameter,resultat()$statistic,resultat()$p.value),nrow=1)
-      colnames(tab) = c("df","t-statistic","p-value")
+      colnames(tab) = c("Dégré de liberté","T-statistic","P-value")
       rownames(tab) = "Values"
       tab
     } 
@@ -280,13 +274,13 @@ shinyServer(function(input, output) {
   output$tdistrib = renderPlot({
     input$teststart
     isolate({
-    if(input$alt1=="inferieur" | input$alt2=="inferieur")
+    if( input$alt2=="inferieur")
     {
       tail="left"
-    } else if(input$alt1=="superieur" | input$alt2=="superieur")
+    } else if(input$alt2=="superieur")
     {
       tail="right"
-    } else if(input$alt1=="bilateral" | input$alt2=="bilateral")
+    } else if(input$alt2=="bilateral")
     {
       tail="both"
     } 
@@ -307,102 +301,5 @@ shinyServer(function(input, output) {
     }
   })
   
-  #####################################################################################################################
-  #####################################################################################################################
-  ## Diagnostics Panel
-  #####################################################################################################################
-  #####################################################################################################################
-  
-  # output$qqplot = renderPlot({
-      # if((input$datformat==1 ) | (input$sampdat==1 & input$usedata))
-      # {
-        # donnees=unlist(data())
-        # dat1=data.frame(x=as.numeric(as.character(donnees)))
-        # ggplot(data=dat1, aes(sample=x)) + stat_qq(geom="point",color="navy",shape=1) +
-          # theme_bw() + theme(text=element_text(size=15)) + ggtitle("Q-Q Plot")
-      # } else if((input$datformat==2 ) | (input$sampdat!=1 & input$usedata))
-      # {
-        # donnees=data()
-        # dat1=data.frame(x=donnees[[1]],y=donnees[[2]])
-        # if(length(unique(donnees[[1]])) > length(unique(donnees[[2]])))
-        # {
-          # dat1$x=as.numeric(as.character(dat1$x))
-          # ggplot(data=dat1, aes(sample=x)) + stat_qq(aes(color=factor(y)),geom="point",shape=1) + theme_bw() +
-            # theme(text=element_text(size=15)) + ggtitle("Q-Q Plot") + facet_wrap(~y) +
-            # scale_color_manual(name="", values=c("navy","gold2")) + guides(color=FALSE)
-        # } else
-        # {
-          # dat1$y=as.numeric(as.character(dat1$y))
-          # ggplot(data=dat1, aes(sample=y)) + stat_qq(aes(color=factor(x)),geom="point",shape=1) + theme_bw() +
-            # theme(text=element_text(size=15)) + ggtitle("Q-Q Plot") + facet_wrap(~x) +
-            # scale_color_manual(name="", values=c("navy","gold2")) + guides(color=FALSE)      
-        # }
-      # } else if((input$datformat==3 ) | (input$sampdat!=1 & input$usedata))
-      # {
-        # donnees=data()
-        # dat1=data.frame(x=c(as.numeric(as.character(donnees[[1]])),as.numeric(as.character(donnees[[2]]))),
-                        # y=c(rep(names(donnees)[1],length(donnees[[1]])),rep(names(donnees)[2],length(donnees[[2]]))))
-        # ggplot(data=dat1, aes(sample=x)) + stat_qq(aes(color=factor(y)),geom="point",shape=1) + theme_bw() +
-          # theme(text=element_text(size=15)) + ggtitle("Q-Q plot") + facet_wrap(~y) +
-          # scale_color_manual(name="", values=c("navy","gold2")) + guides(color=FALSE)      
-      # }
-  # })
-  
-  # output$sw = renderTable({
-      # if((input$datformat==1 ) | (input$sampdat!=2 & input$usedata))
-      # {
-        # donnees=unlist(data())
-        # dat1=data.frame(x=as.numeric(as.character(donnees)))
-        
-        # validate(
-          # need(try(shapiro.test(dat1$x)), "Do not need to conduct normality test")
-        # )
-        
-        # norm = shapiro.test(dat1$x)
-        
-        # tab = matrix(c(norm$statistic,norm$p.value),nrow=1)
-        # colnames(tab) = c("W statistic","p-value")
-        # rownames(tab) = "Data"
-        # tab
-      # } else if((input$datformat==2 ) | (input$sampdat!=1 & input$usedata))
-      # {
-        # donnees=data()
-        # dat1=data.frame(x=donnees[[1]],y=donnees[[2]])
-        # if(length(unique(donnees[[1]])) > length(unique(donnees[[2]])))
-        # {
-          # dat1$x=as.numeric(as.character(dat1$x))
-          
-          # norm1 = shapiro.test(dat1$x[which(dat1$y==unique(dat1$y)[1])])
-          # norm2 = shapiro.test(dat1$x[which(dat1$y==unique(dat1$y)[2])])
-          
-          # tab = matrix(c(norm1$statistic,norm2$statistic,norm1$p.value,norm2$p.value),ncol=2)
-          # colnames(tab) = c("W statistic","p-value")
-          # rownames(tab) = c("Data 1","Data 2")
-          # tab
-        # } else
-        # {
-          # dat1$y=as.numeric(as.character(dat1$y))
-          
-          # norm1 = shapiro.test(dat1$y[which(dat1$x==unique(dat1$x)[1])])
-          # norm2 = shapiro.test(dat1$y[which(dat1$x==unique(dat1$x)[2])])
-          
-          # tab = matrix(c(norm1$statistic,norm2$statistic,norm1$p.value,norm2$p.value),ncol=2)
-          # colnames(tab) = c("W statistic","p-value")
-          # rownames(tab) = c("Data 1","Data 2")
-          # tab   
-        # }
-      # } else if((input$datformat==3 ) | (input$sampdat!=1 & input$usedata))
-      # {
-        # donnees=data()
-        
-        # norm1 = shapiro.test(as.numeric(as.character(donnees[[1]])))
-        # norm2 = shapiro.test(as.numeric(as.character(donnees[[2]])))
-        
-        # tab = matrix(c(norm1$statistic,norm2$statistic,norm1$p.value,norm2$p.value),ncol=2)
-        # colnames(tab) = c("W statistic","p-value")
-        # rownames(tab) = c("Data 1","Data 2")
-        # tab    
-      # }
-  # })
   
 })

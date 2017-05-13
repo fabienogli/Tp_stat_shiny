@@ -1,11 +1,12 @@
-library(shiny)
+#library(shiny)
 if (!require("ggplot2"))
   install.packages("ggplot2")
 
 if (!require("shinyBS"))
   install.packages("shinyBS")
 
-shinyUI(fluidPage(
+shinyUI(
+fluidPage(
   # tags$head(tags$link(rel = "icon", type = "image/x-icon", 
                       # href = "https://webresource.its.calpoly.edu/cpwebtemplate/5.0.1/common/images_html/favicon.ico")),
   
@@ -16,7 +17,7 @@ shinyUI(fluidPage(
                       column(5,br(),br(),br(),
                         withMathJax(p("Cette application permet de faire un test de comparaison de deux moyennes",code("two-sample t-test",style="color:navy"),
 ". Il permettra de choisir entre un test bilatéral",code("two.sided",style="color:navy"), "unilatéral inférieur",code("less",style="color:navy"), "ou supérieur",code("greater",style="color:navy"),". "					
-                        ))),
+                        )))),
              
              tabPanel("Choix du jeu de données",
                       tabsetPanel(          
@@ -28,13 +29,13 @@ shinyUI(fluidPage(
                                             bsPopover("file","Important", "Choisissez ensuite le bon format pour votre fichier !",
                                                       trigger="hover",placement="right"),
                                             tags$hr(),
-                                            radioButtons("datformat", strong("Format de données:"), choices=c(Option1=2,Option2=3), selected=2),
+                                            radioButtons("datformat", strong("Format de données:"), choices=c(Option1=2,Option2=3), selected=3),
                                             bsPopover("datformat","Format de données", "Choisissez option1 si votre jeu de données si la première ligne des deux colonnes estim un nom de variables et choisissez option2 sinon",
                                                       trigger="hover",placement="right"),
                                             tags$hr(),
                                             
-                                            radioButtons("sep", "Separateur:", choices=c(Virgule=",",Point-Virgule=";",Tabulation="\t"), selected=";"),
-                                            radioButtons("quote", "Guillemets", choices=c(Aucun="","Double Guillemets"='"',"Simple Guillemets"="'"),selected=""),
+                                            radioButtons("sep", "Separateur:", choices=c(Virgule=",","Point-Virgule"=";",Tabulation="\t"), selected=";"),
+                                            radioButtons("quote", "Guillemets:", choices=c(Aucun="","Double Guillemets"='"',"Simple Guillemets"="'"),selected=""),
                                             br(),br(),br()              
                                             )),
                                    column(9,
@@ -60,9 +61,12 @@ shinyUI(fluidPage(
                                    h4("Hypothèses de comparaison :"),
                                    uiOutput("hypo"),
                                    tags$hr(),
-                                  # numericInput("null2", label="Hypothesized value:", value=0),
+                                   numericInput("difmoy", label="Valeur dans l'hypothèse:", value=0),
+								   bsPopover("difmoy","Note :", "Cette valeur indique la vrai valeur de la moyenne ou la différence des deux moyennes si on effectue un test sur 2 échantillons.).",
+                                                      trigger="hover",placement="right"),
+							p("Cette valeur indique la vrai valeur de la moyenne ou la différence des deux moyennes si on effectue un test sur 2 échantillons."),
                                    selectInput("alt2", label="Choisissez le type de test :", choices=list("bilateral","inferieur","superieur"),selected="bilateral")),
-                                 bsPopover("alt2","Important", "Choisissez bilateral pour bilatéral, less pour inférieur et greater pour supérieur",
+                                 bsPopover("alt2","Important", "Choisissez  bilatéral,  inférieur ou supérieur",
                                                       trigger="hover",placement="right"),
 								 sliderInput("alpha", label=HTML("Pourcentage &alpha;:"), value=.05, max=1, min=0, step=.01),
                                  tags$hr(),
@@ -85,9 +89,9 @@ shinyUI(fluidPage(
                                         checkboxInput("showpoint","Estimation des moyennes:",TRUE),
                                         uiOutput("estim"),
                                         checkboxInput("ci","Intervalle de confiance:", TRUE),
-                                        tableOutput("ictab")
-                                        
-             
+                                        tableOutput("ictab"))))
+                                      
+             )))))
              # tabPanel("Verification de la normalité",
                       # column(1),
                       # column(4,br(),
@@ -112,5 +116,5 @@ shinyUI(fluidPage(
                                          # trigger="hover",placement="left"))),
                       # column(1))
              
-)))
+
 

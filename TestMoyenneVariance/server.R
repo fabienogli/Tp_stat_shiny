@@ -271,7 +271,7 @@ shinyServer(function(input, output)
     if(input$ci & input$teststart>0)
     {
       tab = matrix(c(resultat()$conf.int[1],resultat()$conf.int[2]),nrow=1)
-      colnames(tab) = c("Limite à gauche","Limite à droite")
+      colnames(tab) = c("Limite gauche","Limite droite")
       rownames(tab) = paste(round(1-input$alpha, digits=3)*100,"% IC",sep="")
       tab
     }
@@ -293,7 +293,7 @@ shinyServer(function(input, output)
     if(input$teststart>0)
     {
       tab = matrix(c(resultat()$parameter,resultat()$statistic,resultat()$p.value),nrow=1)
-      colnames(tab) = c("Dégré de liberté","T-statistic","P-value")
+      colnames(tab) = c("Degre de liberte","T-statistic","P-value")
       rownames(tab) = "Values"
       tab
     } 
@@ -446,7 +446,7 @@ shinyServer(function(input, output)
     if(input$ci1 & input$test1start>0)
     {
       tab = matrix(c(resultat1()$conf.int[1],resultat1()$conf.int[2]),nrow=1)
-      colnames(tab) = c("Limite à gauche","Limite à droite")
+      colnames(tab) = c("Limite gauche","Limite droite")
       rownames(tab) = paste(round(1-input$alpha1, digits=3)*100,"% IC",sep="")
       tab
     }
@@ -459,7 +459,7 @@ shinyServer(function(input, output)
     if(input$test1start>0)
     {
       tab1 = matrix(c(resultat1()$parameter[1],resultat1()$parameter[2],resultat1()$statistic,resultat1()$p.value),nrow=1)
-      colnames(tab1) = c("Dégré de liberté Numérateur","Dégré de liberté Denominateur","F-statistic","P-value")
+      colnames(tab1) = c("Degre de liberte Numerateur","Degre de liberte Denominateur","F-statistic","P-value")
       rownames(tab1) = "Values"
       tab1
     } 

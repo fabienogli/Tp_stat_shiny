@@ -63,7 +63,7 @@ fluidPage(
                                    numericInput("difmoy", label="Valeur dans l'hypothèse:", value=0),
 								   bsPopover("difmoy","Note :", "Cette valeur indique la vrai valeur de la moyenne ou la différence des deux moyennes si on effectue un test sur 2 échantillons.).",
                                                       trigger="hover",placement="right"),
-							p("Cette valeur indique la vrai valeur de la moyenne ou la différence des deux moyennes si on effectue un test sur 2 échantillons."),
+							   p("Cette valeur indique la vrai valeur de la moyenne ou la différence des deux moyennes si on effectue un test sur 2 échantillons."),
                                    selectInput("alt2", label="Choisissez le type de test :", choices=list("bilateral","inferieur","superieur"),selected="bilateral")),
                                  bsPopover("alt2","Important", "Choisissez  bilatéral,  inférieur ou supérieur",
                                                       trigger="hover",placement="right"),
@@ -127,7 +127,7 @@ fluidRow(
                                  column(5,br(),
                                         strong("Sortie :"),
                                         tableOutput("test1"),br(),
-                                        checkboxInput("showpoint","Estimation des moyennes:",TRUE),
+                                        checkboxInput("showpoint1","Ratio des variances:",TRUE),
                                         uiOutput("estim1"),
                                         checkboxInput("ci1","Intervalle de confiance:", TRUE),
                                         tableOutput("ictab1"))))

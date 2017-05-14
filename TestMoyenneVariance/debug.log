@@ -182,3 +182,91 @@
 [0514/000238.712:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
 [0514/000238.714:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
 [0514/000238.879:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/000331.962:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/000331.970:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/000331.972:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/000332.140:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/000636.104:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/000636.112:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/000636.114:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/000636.290:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/002055.519:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/002055.527:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/002055.529:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/002055.696:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/002428.663:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/002428.672:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/002428.674:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/002428.767:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/003139.551:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/003139.558:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/003139.560:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/003139.653:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/003355.115:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/003355.123:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/003355.125:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/003355.216:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/003949.900:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/003949.910:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/003949.913:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/003950.077:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/004543.865:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/004543.873:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/004543.875:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/004544.037:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/004807.566:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/004807.573:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/004807.575:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/004807.740:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/005143.454:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/005143.465:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/005143.467:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/005143.649:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/005243.446:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/005243.454:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/005243.456:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/005243.623:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/005428.051:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/005428.059:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/005428.060:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/005428.156:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/010624.645:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/010624.653:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/010624.655:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/010624.812:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/011047.390:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/011047.398:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/011047.400:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/011047.495:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/013222.087:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/013222.095:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/013222.097:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/013222.191:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/013622.432:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/013622.464:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/013622.465:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/013622.635:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/014311.664:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/014311.672:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/014311.674:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/014311.841:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/014941.386:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/014941.403:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/014941.405:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/014941.583:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/015624.192:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/015624.199:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/015624.202:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/015624.394:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/020021.464:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/020021.473:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/020021.475:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/020021.648:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/021508.038:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/021508.049:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/021508.050:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/021508.234:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured
+[0514/021627.573:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/021627.582:ERROR:registration_protocol_win.cc(84)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0514/021627.583:ERROR:file_io_win.cc(163)] CreateFile C:\Program Files (x86)\Coldmay\settings.dat: Accès refusé. (0x5)
+[0514/021627.681:ERROR:crashpad_client_win.cc(660)] crash server failed to launch, no dump captured

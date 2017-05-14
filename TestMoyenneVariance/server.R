@@ -119,7 +119,8 @@ data(mtcars)
 
 ## Le serveur shiny
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output) 
+{
   ## Page de chargement de données
   
   data = reactive({
@@ -356,7 +357,7 @@ shinyServer(function(input, output) {
       {
         donnees=data()
         if(length(unique(donnees[[1]])) > length(unique(donnees[[2]])))
-        
+        {
           if(input$alt3=="inferieur")
             resultat1 = var.test(as.numeric(as.character(donnees[[1]]))~donnees[[2]],ratio=input$difmoy1,
                          alternative="less",conf.level=1-input$alpha1)
@@ -378,7 +379,8 @@ shinyServer(function(input, output) {
             resultat1 = var.test(as.numeric(as.character(donnees[[2]]))~donnees[[1]],ratio=input$difmoy1,
                          alternative="two.sided",conf.level=1-input$alpha1)
         }
-      } else if((input$datformat==3 ))
+	}
+       else if((input$datformat==3 ))
       {
         donnees=data()
         if(input$alt3=="inferieur")
@@ -390,10 +392,10 @@ shinyServer(function(input, output) {
         else 
           resultat1 = var.test(x=as.numeric(as.character(donnees[[1]])),y=as.numeric(as.character(donnees[[2]])),ratio=input$difmoy1,
                        alternative="two.sided",conf.level=1-input$alpha1)
-      }
+		}
     }
     })
-  )
+  })
   #Affichage des hypthèses sur les variances
     output$hypo1 = renderUI({
     if((input$datformat==2 || input$datformat==3 ))
@@ -430,5 +432,38 @@ shinyServer(function(input, output) {
     return(f.dist.area(resultat1()$statistic,tail=tail,resultat1()$parameter))
     })
   }) 
+  #fonction permettant d'afficher les estimations du ratio des variances
+  output$estim1=renderUI({
+     
+	if(input$test1start>0 & input$showpoint1 & ((input$datformat==2 | input$datformat==3 )))
+    {
+      HTML("ratio des variances =",round(resultat1()$estimate,2))
+    }
+  })
+  #permet d'afficher le tableau de l'intervalle de confiance
+  output$ictab1 = renderTable({
+  #si la variable ci est définie et le test a démarré
+    if(input$ci1 & input$test1start>0)
+    {
+      tab = matrix(c(resultat1()$conf.int[1],resultat1()$conf.int[2]),nrow=1)
+      colnames(tab) = c("Limite à gauche","Limite à droite")
+      rownames(tab) = paste(round(1-input$alpha1, digits=3)*100,"% IC",sep="")
+      tab
+    }
+  })
+  
+  output$test1 = renderTable({
+    input$test1start
+    isolate({
+	 #si le test a démarré
+    if(input$test1start>0)
+    {
+      tab1 = matrix(c(resultat1()$parameter[1],resultat1()$parameter[2],resultat1()$statistic,resultat1()$p.value),nrow=1)
+      colnames(tab1) = c("Dégré de liberté Numérateur","Dégré de liberté Denominateur","F-statistic","P-value")
+      rownames(tab1) = "Values"
+      tab1
+    } 
+    })
+  })
   
 })
